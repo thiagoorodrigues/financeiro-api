@@ -11,13 +11,13 @@ import { User } from './users/entities/user.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'postgres',
+      type: 'mysql',
       host: '178.156.163.101',
-      port: 5432,
-      password: 'VPgXM4llyyAkcsW69CpaygBZpqIlGeDr45GLIQncEeIAykONec9Yze7aQEArHX3c',
-      username: 'postgres',
+      port: 3306,
+      password: 'YgMhCx3RW0YZEVHk1Udr68KAc3hVfqfVBh0Mm0LMqP4IXgUyer3BBcBKdSQQhV9J',
+      username: 'mysql',
       entities: [User],
-      database: 'postgres',
+      database: 'default',
       synchronize: false,
       logging: true,
     }),
