@@ -28,12 +28,15 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.userRepository.findOne({ where: { id } });
-    await this.userRepository.update(id, updateUserDto);
-    return this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado ou já excluído');
+    }
+    await this.userRepository.update(user?.id, updateUserDto);
+    return { message: 'Usuário atualizado com sucesso' };
   }
 
   async remove(id: number) {
-    const result = await this.userRepository.softDelete(id);
+    const result = await this.userRepository.update(id, { status: StatusEnum.DESACTIVE, deleted_at: new Date() });
     if (!result.affected) {
       throw new NotFoundException('Usuário não encontrado ou já excluído');
     }
