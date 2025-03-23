@@ -1,14 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, Matches, MinLength } from 'class-validator';
 
-export class CreateUserDto {
-  @ApiProperty({
-    description: 'O nome do usuário',
-    example: 'João Silva',
-  })
-  @IsString({ message: 'Informe um nome válido' })
-  name: string;
-
+export class AuthDto {
   @ApiProperty({
     description: 'O nome do usuário',
     example: 'teste@teste.com.br',

@@ -1,26 +1,43 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Category } from './entities/category.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { StatusEnum } from 'src/enums/status.enum';
 
 @Injectable()
 export class CategoriesService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  constructor(
+    @InjectRepository(Category)
+    private readonly categoriesRepository: Repository<Category>,
+  ) {}
+  async create(createCategoryDto: CreateCategoryDto) {
+    await this.categoriesRepository.save(createCategoryDto);
+    return { message: 'Categoria cadastrada com sucesso!' };
   }
 
   findAll() {
-    return `This action returns all categories`;
+    return this.categoriesRepository.find({
+      where: { status: StatusEnum.ACTIVE },
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} category`;
+    return this.categoriesRepository.findOne({
+      where: { id: id, status: StatusEnum.ACTIVE },
+    });
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+    await this.categoriesRepository.update(id, updateCategoryDto);
+    return { message: 'Categoria atualizada com sucesso!' };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: number) {
+    await this.categoriesRepository.update(id, {
+      status: StatusEnum.DESACTIVE,
+    });
+    return { message: 'Categoria removida com sucesso!' };
   }
 }
