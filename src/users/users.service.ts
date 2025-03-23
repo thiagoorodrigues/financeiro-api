@@ -11,7 +11,6 @@ import { StatusEnum } from 'src/enums/status.enum';
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-<<<<<<< HEAD
   ) {}
   async create(createUserDto: CreateUserDto) {
     const user = await this.userRepository.findOne({
@@ -25,13 +24,6 @@ export class UsersService {
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
     await this.userRepository.save(createUserDto);
     return { message: 'Usuário cadastrado com sucesso!' };
-=======
-  ) { }
-  async create(createUserDto: CreateUserDto): Promise<CreateUserDto> {
-    createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
-    const user = await this.userRepository.save(createUserDto);
-    return user;
->>>>>>> 0be34d08f9fa003ac089cb30e4d2938c5032c244
   }
 
   findAll() {
