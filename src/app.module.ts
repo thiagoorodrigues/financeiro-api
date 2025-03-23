@@ -10,6 +10,9 @@ import { User } from './users/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
+import { BanksModule } from './banks/banks.module';
+import { BankAccountsModule } from './bank-accounts/bank-accounts.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -28,6 +31,9 @@ import { AuthService } from './auth/auth.service';
     UsersModule,
     CategoriesModule,
     AuthModule,
+    BanksModule,
+    BankAccountsModule,
+    TransactionsModule,
   ],
   controllers: [UsersController, CategoriesController, AuthController],
   providers: [UsersService, CategoriesService, AuthService],
