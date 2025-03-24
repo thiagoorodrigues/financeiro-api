@@ -15,10 +15,4 @@ export class CreateBankDto {
   })
   @IsString({ message: 'Informe um nome válido' })
   code: string;
-
-  @ApiProperty({
-    description: 'Logomrca Banco',
-    example: '000',
-  })
-  flag?: string;
 }
