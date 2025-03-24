@@ -1,15 +1,43 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  UploadedFile,
+  UseGuards,
+} from '@nestjs/common';
 import { BanksService } from './banks.service';
 import { CreateBankDto } from './dto/create-bank.dto';
 import { UpdateBankDto } from './dto/update-bank.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+@ApiTags('Banks')
+@ApiBearerAuth()
 @Controller('banks')
 export class BanksController {
   constructor(private readonly banksService: BanksService) {}
 
+  @ApiOperation({ summary: 'Cadastrar novo usuário.' })
+  @ApiConsumes('multipart/form-data')
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createBankDto: CreateBankDto) {
-    return this.banksService.create(createBankDto);
+  @UseInterceptors(FileInterceptor('file'))
+  create(
+    @Body() createBankDto: CreateBankDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.banksService.create(createBankDto, file);
   }
 
   @Get()

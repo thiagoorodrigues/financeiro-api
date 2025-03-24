@@ -4,7 +4,9 @@ import { UpdateBankDto } from './dto/update-bank.dto';
 
 @Injectable()
 export class BanksService {
-  create(createBankDto: CreateBankDto) {
+  create(createBankDto: CreateBankDto, file: Express.Multer.File) {
+    console.log(createBankDto);
+    console.log(file);
     return 'This action adds a new bank';
   }
 
@@ -17,6 +19,7 @@ export class BanksService {
   }
 
   update(id: number, updateBankDto: UpdateBankDto) {
+    console.log(updateBankDto);
     return `This action updates a #${id} bank`;
   }
 
