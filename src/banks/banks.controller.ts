@@ -16,6 +16,7 @@ import { UpdateBankDto } from './dto/update-bank.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiConsumes,
   ApiOperation,
   ApiTags,
@@ -30,6 +31,21 @@ export class BanksController {
 
   @ApiOperation({ summary: 'Cadastrar novo usuário.' })
   @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Criação de banco com upload de imagem',
+    schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', example: 'Banco XPTO' },
+        code: { type: 'string', example: '123' },
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+      required: ['name', 'code', 'file'],
+    },
+  })
   @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file'))
